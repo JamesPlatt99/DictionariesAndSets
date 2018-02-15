@@ -16,19 +16,38 @@ namespace DictionariesAndSets
 
         private void Start()
         {
-            var bloomFilter = GetBloomFilter();
-            string curWord;
+            BloomFilter bloomFilter = GetBloomFilter();
+            Menu(bloomFilter);
+        }
+
+        private void Menu(BloomFilter bloomFilter)
+        {
             Console.WriteLine("Word looker upper");
             Console.WriteLine("----------------------------------");
-            for(int i = 0;i<100000;i++)
+            Console.WriteLine("  1. User entered words");
+            Console.WriteLine("  2. Generated words");
+            switch (Console.ReadLine())
             {
-                if (bloomFilter.IsCollision(curWord = RandomWord()))
-                {
-                    Console.WriteLine(curWord);
-                }
-                //Console.Write(" :");
-                //Console.WriteLine(bloomFilter.CheckWord(Console.ReadLine()));
+                case "1":
+                    while (true)
+                    {
+                        Console.Write(" :");
+                        Console.WriteLine(bloomFilter.CheckWord(Console.ReadLine()));
+                    }
+                case "2":
+                    string curWord;
+                    while (true)
+                    {
+                        if (bloomFilter.IsCollision(curWord = RandomWord()))
+                        {
+                            Console.WriteLine(curWord);
+                        }
+                    }
+                default:
+                    Menu(bloomFilter);
+                    break;
             }
+
             bloomFilter.WriteCollisions();
         }
 

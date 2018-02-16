@@ -35,20 +35,15 @@ namespace DictionariesAndSets
                         Console.WriteLine(bloomFilter.CheckWord(Console.ReadLine()));
                     }
                 case "2":
-                    string curWord;
                     while (true)
                     {
-                        if (bloomFilter.IsCollision(curWord = RandomWord()))
-                        {
-                            Console.WriteLine(curWord);
-                        }
+                        Console.WriteLine(bloomFilter.CheckWord(RandomWord ()));
+
                     }
                 default:
                     Menu(bloomFilter);
                     break;
             }
-
-            bloomFilter.WriteCollisions();
         }
 
         private String RandomWord()

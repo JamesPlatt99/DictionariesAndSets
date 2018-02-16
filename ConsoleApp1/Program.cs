@@ -14,6 +14,19 @@ namespace DictionariesAndSets
             program.Start();
         }
 
+
+
+        private IEnumerable<String> _words;
+        private IEnumerable<String> GetWords()
+        {
+            if(_words == null)
+            {
+                var client = new WebClient();
+                return client.DownloadString("http://codekata.com/data/wordlist.txt").Split("\n");
+            }
+            return _words;
+        }
+
         private void Start()
         {
             BloomFilter bloomFilter = GetBloomFilter();
@@ -36,12 +49,14 @@ namespace DictionariesAndSets
                     }
                 case "2":
                     String curWord;
-                    for(int i = 0; i < 100000; i++)
+                    for(int i = 0; i < 100; i++)
                     {
-                        if(bloomFilter.CheckCollision(curWord = RandomWord()))
+                        bloomFilter = GetBloomFilter(i);
+                        for(int j = 0; j < 1000000; j++)
                         {
-                            Console.WriteLine(curWord);
+                            bloomFilter.CheckCollision(curWord = RandomWord());
                         }
+                        Console.WriteLine("{0} - {1}", i, bloomFilter.Collisions.Count);
                     }
                     bloomFilter.WriteCollisions();
                     break;
@@ -49,6 +64,8 @@ namespace DictionariesAndSets
                     Menu(bloomFilter);
                     break;
             }
+            Console.WriteLine(bloomFilter.Collisions.Count);
+            Console.ReadLine();
         }
 
         private String RandomWord()
@@ -63,21 +80,15 @@ namespace DictionariesAndSets
             return sb.ToString();
         }
 
-        private BloomFilter GetBloomFilter()
+        private BloomFilter GetBloomFilter(int arrayStart = 0)
         {
-            BloomFilter bloomFilter = new BloomFilter();
+            BloomFilter bloomFilter = new BloomFilter(arrayStart);
             IEnumerable<String> words = GetWords();
             foreach(String word in words)
             {
                 bloomFilter.AddWord(word);
             }
             return bloomFilter;
-        }
-        private IEnumerable<String> GetWords()
-        {
-            var client = new WebClient();
-            return client.DownloadString("http://codekata.com/data/wordlist.txt").Split("\n");
-        }
-        
+        }                
     }
 }

@@ -32,26 +32,27 @@ namespace DictionariesAndSets
         }
         public void AddWord(String word)
         {
-            uint hash = GetHash(word);
+            int hash = GetHash(word);
             _lookup[hash] = true;
         }        
         public bool CheckWord(String word)
         {
-            uint hash = GetHash(word);
+            int hash = GetHash(word);
             return _lookup[hash] == true;
         }
-        private uint GetHash(String input)
+        private int GetHash(String input)
         {
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input.ToLower());
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
-                uint output = 0;
+                int output = 1;
                 for (int i = 0; i < hashBytes.Length; i++)
                 {
-                    output += (uint) (hashBytes[i] * Primes[i]);
+                    output = output * (hashBytes[i] * Primes[i]);
                 }
-                return output % _arSize;
+                //Return magnitude of value
+                return (int)Math.Pow(Math.Pow(output % _arSize,2),0.5);
             }
         }
     }

@@ -36,13 +36,15 @@ namespace DictionariesAndSets
                     }
                 case "2":
                     String curWord;
-                    while (true)
+                    for(int i = 0; i < 100000; i++)
                     {
                         if(bloomFilter.CheckCollision(curWord = RandomWord()))
                         {
                             Console.WriteLine(curWord);
                         }
                     }
+                    bloomFilter.WriteCollisions();
+                    break;
                 default:
                     Menu(bloomFilter);
                     break;

@@ -18,11 +18,11 @@ namespace DictionariesAndSets
         {
             get
             {
-                if(_primes == null)
+                if (_primes == null)
                 {
                     string[] primesStr = _primesStr.Split(",");
                     _primes = new int[128];
-                    for(int i = 0; i <128; i++)
+                    for (int i = 0; i < 128; i++)
                     {
                         _primes[i] = Convert.ToInt32(primesStr[i]);
                     }
@@ -43,13 +43,13 @@ namespace DictionariesAndSets
             {
                 Collisions.Add(word);
             }
-        }        
+        }
         public bool CheckCollision(String word)
         {
             int hash = GetHash(word);
             if (_lookup[hash])
             {
-                if(_collisionLookup[hash] != word)
+                if (_collisionLookup[hash] != word)
                 {
                     Collisions.Add(word);
                     return true;
@@ -57,6 +57,17 @@ namespace DictionariesAndSets
             }
             return false;
         }
+
+        public void WriteCollisions()
+        {
+            StreamWriter writer = new StreamWriter("Collisions!!!.txt");
+            foreach (string word in Collisions)
+            {
+                writer.WriteLine(word);
+            }
+            writer.Close();
+        }
+
         public bool CheckWord(String word)
         {
             int hash = GetHash(word);
@@ -74,7 +85,7 @@ namespace DictionariesAndSets
                     output = output * (inputBytes[i] * Primes[i]);
                 }
                 //Return magnitude of value
-                return (int)Math.Pow(Math.Pow(output % _arSize,2),0.5);
+                return (int)Math.Pow(Math.Pow(output % _arSize, 2), 0.5);
             }
         }
     }

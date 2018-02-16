@@ -8,7 +8,7 @@ namespace DictionariesAndSets
 {
     class BloomFilter
     {
-        //private Dictionary<String, String> _lookup = new Dictionary<String, String>();
+        private Dictionary<int, String> _collisionLookup = new Dictionary<int, String>();
         private const int _arSize = 21474836;
         private bool[] _lookup = new bool[_arSize];
         private Dictionary<String, String> _collisionsFound = new Dictionary<String, String>();
@@ -30,11 +30,33 @@ namespace DictionariesAndSets
                 return _primes;
             }
         }
+        public List<String> Collisions = new List<string>();
         public void AddWord(String word)
         {
             int hash = GetHash(word);
             _lookup[hash] = true;
+            if (!_collisionLookup.ContainsKey(hash))
+            {
+                _collisionLookup.Add(hash, word);
+            }
+            else
+            {
+                Collisions.Add(word);
+            }
         }        
+        public bool CheckCollision(String word)
+        {
+            int hash = GetHash(word);
+            if (_lookup[hash])
+            {
+                if(_collisionLookup[hash] != word)
+                {
+                    Collisions.Add(word);
+                    return true;
+                }
+            }
+            return false;
+        }
         public bool CheckWord(String word)
         {
             int hash = GetHash(word);

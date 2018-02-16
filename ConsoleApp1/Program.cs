@@ -35,9 +35,13 @@ namespace DictionariesAndSets
                         Console.WriteLine(bloomFilter.CheckWord(Console.ReadLine()));
                     }
                 case "2":
+                    String curWord;
                     while (true)
                     {
-                        Console.WriteLine(bloomFilter.CheckWord(RandomWord ()));
+                        if(bloomFilter.CheckCollision(curWord = RandomWord()))
+                        {
+                            Console.WriteLine(curWord);
+                        }
                     }
                 default:
                     Menu(bloomFilter);

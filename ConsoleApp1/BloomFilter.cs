@@ -47,9 +47,9 @@ namespace DictionariesAndSets
                 byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input.ToLower());
                 byte[] hashBytes = md5.ComputeHash(inputBytes);
                 int output = 1;
-                for (int i = 0; i < hashBytes.Length; i++)
+                for (int i = 0; i < inputBytes.Length; i++)
                 {
-                    output = output * (hashBytes[i] * Primes[i]);
+                    output = output * (inputBytes[i] * Primes[i]);
                 }
                 //Return magnitude of value
                 return (int)Math.Pow(Math.Pow(output % _arSize,2),0.5);

@@ -38,7 +38,6 @@ namespace DictionariesAndSets
                     while (true)
                     {
                         Console.WriteLine(bloomFilter.CheckWord(RandomWord ()));
-
                     }
                 default:
                     Menu(bloomFilter);

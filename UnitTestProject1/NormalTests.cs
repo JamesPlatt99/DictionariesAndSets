@@ -47,5 +47,16 @@ namespace UnitTestProject1
             Assert.IsTrue(BloomFilter.CheckWord("CARROT"));
             Assert.IsTrue(BloomFilter.CheckWord("caRrOT"));
         }
+
+        [TestMethod]
+        public void FakeWords()
+        {
+            Assert.IsFalse(BloomFilter.CheckWord("Tnetennba"));
+            Assert.IsFalse(BloomFilter.CheckWord("sldfkjkw"));
+            Assert.IsFalse(BloomFilter.CheckWord("!"));
+            Assert.IsFalse(BloomFilter.CheckWord("."));
+            Assert.IsFalse(BloomFilter.CheckWord("123"));
+            Assert.IsFalse(BloomFilter.CheckWord("'123'asdf"));
+        }
     }
 }

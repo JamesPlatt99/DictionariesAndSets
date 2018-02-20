@@ -80,7 +80,7 @@ namespace DictionariesAndSets
             return sb.ToString();
         }
 
-        private BloomFilter GetBloomFilter(int arrayStart = 0)
+        private BloomFilter GetBloomFilter(int arrayStart = 1)
         {
             BloomFilter bloomFilter = new BloomFilter(arrayStart);
             IEnumerable<String> words = GetWords();

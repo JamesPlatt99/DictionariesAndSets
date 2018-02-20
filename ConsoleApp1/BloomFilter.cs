@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,10 +11,9 @@ namespace DictionariesAndSets
     {
         private const int ARRAYSIZE = 21474836;
 
-        private int _startPrimeIndex = 0;
+        public int StartPrimeIndex;
         private Dictionary<int, String> _collisionLookup = new Dictionary<int, String>();
         private bool[] _lookup = new bool[ARRAYSIZE];
-        private Dictionary<String, String> _collisionsFound = new Dictionary<String, String>();
         private int[] _primes;
         private int[] Primes
         {
@@ -36,7 +36,7 @@ namespace DictionariesAndSets
 
         public BloomFilter(int startPrimeIndex)
         {
-            _startPrimeIndex = startPrimeIndex;
+            StartPrimeIndex = startPrimeIndex;
         }
 
         public List<String> Collisions = new List<string>();
@@ -72,7 +72,7 @@ namespace DictionariesAndSets
         public void WriteCollisions()
         {
             StreamWriter writer = new StreamWriter("Collisions!!!.txt", false);
-            foreach (string word in Collisions)
+            foreach (string word in Collisions.Distinct())
             {
                 writer.WriteLine(word);
             }

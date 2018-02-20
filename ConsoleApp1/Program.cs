@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Linq;
 
 namespace DictionariesAndSets
 {
@@ -72,15 +73,16 @@ namespace DictionariesAndSets
                         Console.WriteLine(bloomFilter.CheckWord(Console.ReadLine()));
                     }
                 case "2":
-                    String curWord;
+                    bloomFilter = GetBloomFilter();
                     for (int i = 0; i < 100; i++)
                     {
-                        bloomFilter = GetBloomFilter(i);
+                        bloomFilter.StartPrimeIndex = i;
+                        bloomFilter.Collisions = new List<string>();
                         for (int j = 0; j < 1000000; j++)
                         {
-                            bloomFilter.CheckCollision(curWord = RandomWord());
+                            bloomFilter.CheckCollision(RandomWord());
                         }
-                        Console.WriteLine("{0} - {1}", i, bloomFilter.Collisions.Count);
+                        Console.WriteLine("{0} - {1}", i, bloomFilter.Collisions.Distinct().Count());
                     }
                     bloomFilter.WriteCollisions();
                     break;

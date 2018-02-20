@@ -93,7 +93,7 @@ namespace DictionariesAndSets
                 output = output * (inputBytes[i] * Primes[(Primes[i] * inputBytes[i]) % Primes.Length]);
             }
             //Return magnitude of value
-            return (int)Math.Pow(Math.Pow(output % ARRAYSIZE, 2), 0.5);            
+            return (int)Math.Abs(output % ARRAYSIZE);            
         }
     }
 }

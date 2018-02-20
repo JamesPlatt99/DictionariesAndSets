@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DictionariesAndSets
 {
-    class BloomFilter
+    public class BloomFilter
     {
         private const int ARRAYSIZE = 21474836;
 
@@ -21,7 +21,7 @@ namespace DictionariesAndSets
             {
                 if (_primes == null)
                 {
-                    StreamReader reader = new StreamReader("lovelyListOfPrimes.txt");
+                    StreamReader reader = new StreamReader(@"C:\LocalProjects\Training\AptemProjects\DictionariesAndSets\ConsoleApp1\lovelyListOfPrimes.txt");
                     string[] primesStr = reader.ReadToEnd().Split(",");
                     reader.Close();
                     _primes = new int[primesStr.Length];

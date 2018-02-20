@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DictionariesAndSets
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -14,8 +14,38 @@ namespace DictionariesAndSets
             program.Start();
         }
 
+        #region Public Methods
+        public String RandomWord()
+        {
+            Random random = new Random();
+            StringBuilder sb = new StringBuilder();
+            int length = random.Next(1, 12);
+            for (int i = 0; i < length; i++)
+            {
+                sb.Append((char)(random.Next(65, 91)));
+            }
+            return sb.ToString();
+        }
 
+        public BloomFilter GetBloomFilter(int arrayStart = 1)
+        {
+            BloomFilter bloomFilter = new BloomFilter(arrayStart);
+            IEnumerable<String> words = GetWords();
+            foreach(String word in words)
+            {
+                bloomFilter.AddWord(word);
+            }
+            return bloomFilter;
+        }                
 
+        public void Start()
+        {
+            BloomFilter bloomFilter = GetBloomFilter();
+            Menu(bloomFilter);
+        }
+        #endregion
+
+        #region Helper Methods
         private IEnumerable<String> _words;
         private IEnumerable<String> GetWords()
         {
@@ -25,12 +55,6 @@ namespace DictionariesAndSets
                 return client.DownloadString("http://codekata.com/data/wordlist.txt").Split("\n");
             }
             return _words;
-        }
-
-        private void Start()
-        {
-            BloomFilter bloomFilter = GetBloomFilter();
-            Menu(bloomFilter);
         }
 
         private void Menu(BloomFilter bloomFilter)
@@ -49,10 +73,10 @@ namespace DictionariesAndSets
                     }
                 case "2":
                     String curWord;
-                    for(int i = 0; i < 100; i++)
+                    for (int i = 0; i < 100; i++)
                     {
                         bloomFilter = GetBloomFilter(i);
-                        for(int j = 0; j < 1000000; j++)
+                        for (int j = 0; j < 1000000; j++)
                         {
                             bloomFilter.CheckCollision(curWord = RandomWord());
                         }
@@ -67,28 +91,6 @@ namespace DictionariesAndSets
             Console.WriteLine(bloomFilter.Collisions.Count);
             Console.ReadLine();
         }
-
-        private String RandomWord()
-        {
-            Random random = new Random();
-            StringBuilder sb = new StringBuilder();
-            int length = random.Next(1, 12);
-            for (int i = 0; i < length; i++)
-            {
-                sb.Append((char)(random.Next(65, 91)));
-            }
-            return sb.ToString();
-        }
-
-        private BloomFilter GetBloomFilter(int arrayStart = 1)
-        {
-            BloomFilter bloomFilter = new BloomFilter(arrayStart);
-            IEnumerable<String> words = GetWords();
-            foreach(String word in words)
-            {
-                bloomFilter.AddWord(word);
-            }
-            return bloomFilter;
-        }                
+        #endregion
     }
 }
